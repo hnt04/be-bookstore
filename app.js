@@ -19,4 +19,14 @@ app.use(cors())
 
 app.use('/', indexRouter);
 
+app.use((req,res,next)=>{
+    const exception = new Error(`Path not found`);
+    exception.statusCode = 404;
+    next(exception)
+})
+
+app.use((err,req,res,next)=>{
+    res.status(err.statusCode).send(err.message)
+})
+
 module.exports = app;
